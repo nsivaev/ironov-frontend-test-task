@@ -1,15 +1,15 @@
 <template>
   <main>
-    <h1>Страница генерации</h1>
-    <Generation/>
+    <h1>Страница избранного</h1>
+    <Favorites/>
   </main>
 </template>
 
 <script lang="ts">
-import Generation from "@/components/Generation.vue";
+import Favorites from "@/components/Favorites.vue";
 
 export default {
-  components: {Generation},
+  components: {Favorites},
 
   setup() {
 
