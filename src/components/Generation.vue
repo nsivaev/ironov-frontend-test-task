@@ -30,7 +30,7 @@ export default {
     });
 
     // Список директорий
-    const layers = ['head', 'eyes', 'eyebrows', 'glasses', 'body', 'mouth', 'top', 'pet'];
+    const layers = ['backgrounds', 'head', 'eyes', 'eyebrows', 'glasses', 'body', 'mouth', 'top', 'pet'];
 
     // Случайное изображение для каждого слоя
     const orderedImages = ref<Record<string, string>>(
@@ -78,6 +78,12 @@ export default {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.image--backgrounds {
+  z-index: 0;
+  width: 440px;
+  height: 440px;
 }
 
 .image--head {
