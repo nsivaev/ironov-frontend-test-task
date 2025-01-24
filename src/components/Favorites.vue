@@ -58,6 +58,7 @@ export default defineComponent({
 }
 
 .trash-btn {
+  cursor: pointer;
   padding: 4px 8px;
   display: flex;
   align-items: center;
