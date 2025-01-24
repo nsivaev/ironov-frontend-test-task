@@ -2,7 +2,7 @@
   <div class="generation">
     <div class="image-container">
       <div v-for="(src, name) in orderedImages" :key="name" :class="`image image--${name}`">
-        <img :src="src" :alt="`Random ${name}`" />
+        <img :src="src" :alt="`Random ${name}`" loading="lazy" />
       </div>
     </div>
   </div>
@@ -117,17 +117,34 @@ export default {
 .image--body {
   z-index: 6;
   top: 297px;
+  width: 296px;
+  height: 216px;
+
+  img {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+  }
 }
 
 .image--top {
   z-index: 7;
-  top: 58px;
+  top: 63px;
 }
 
 .image--pet {
-  z-index: 8;
-  transform: rotate(-20deg);
+  position: absolute;
+  top: 313px;
   left: -68px;
-  bottom: -60px;
+  z-index: 8;
+  width: 290px;
+  height: 184px;
+  transform: rotate(-20deg);
+
+  img {
+    position: absolute;
+    width: 100%;
+    height: auto;
+  }
 }
 </style>
