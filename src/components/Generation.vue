@@ -1,8 +1,7 @@
 <template>
   <div class="generation">
-    <div class="random-images">
-      <div v-for="(src, name) in randomImages" :key="name" class="image-container">
-        <p>{{ name }}</p>
+    <div class="image-container">
+      <div v-for="(src, name) in orderedImages" :key="name" :class="`image image--${name}`">
         <img :src="src" :alt="`Random ${name}`" />
       </div>
     </div>
@@ -14,10 +13,11 @@ import { ref } from 'vue';
 
 export default {
   setup() {
+    // Глобальный импорт всех SVG файлов через import.meta.glob (vite)
     const modules = import.meta.glob('@/images/*/**.svg', { eager: true });
 
+    // Группируем изображения по их директориям
     const groupedImages: Record<string, string[]> = {};
-
     Object.entries(modules).forEach(([path, module]: [string, any]) => {
       const match = path.match(/\/images\/([^/]+)\//);
       if (match) {
@@ -29,17 +29,23 @@ export default {
       }
     });
 
-    const randomImages = ref<Record<string, string>>(
+    // Список директорий
+    const layers = ['head', 'eyes', 'eyebrows', 'glasses', 'body', 'mouth', 'top', 'pet'];
+
+    // Случайное изображение для каждого слоя
+    const orderedImages = ref<Record<string, string>>(
       Object.fromEntries(
-        Object.entries(groupedImages).map(([dir, images]) => [
-          dir,
-          images[Math.floor(Math.random() * images.length)],
+        layers.map((layer) => [
+          layer,
+          groupedImages[layer]
+            ? groupedImages[layer][Math.floor(Math.random() * groupedImages[layer].length)]
+            : ''
         ])
       )
     );
 
     return {
-      randomImages,
+      orderedImages,
     };
   },
 };
@@ -48,35 +54,80 @@ export default {
 <style scoped>
 .generation {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 3px solid #FFFFFF;
-  border-radius: 8px;
-  width: 480px;
-  padding: 20px;
-}
-
-.random-images {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
+  width: 526px;
+  height: 526px;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  padding: 40px;
 }
 
 .image-container {
-  text-align: center;
-  border: 2px solid #ccc;
-  padding: 10px;
+  background-color: #76EBC7;
   border-radius: 8px;
-  width: 120px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  overflow: hidden;
+  width: 440px;
+  height: 440px;
+  position: relative;
 }
 
-img {
-  max-width: 100%;
-  max-height: 100%;
-  margin-top: 10px;
+.image {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.image--head {
+  z-index: 1;
+  top: 132px;
+}
+
+.image--eyes {
+  z-index: 2;
+  top: 200px;
+}
+
+.image--eyebrows {
+  z-index: 3;
+  top: 176px;
+}
+
+.image--mouth {
+  z-index: 4;
+  top: 225px;
+  width: 101px;
+  height: 42px;
+
+  img {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+}
+
+.image--glasses {
+  z-index: 5;
+  top: 194px;
+}
+
+.image--body {
+  z-index: 6;
+  top: 297px;
+}
+
+.image--top {
+  z-index: 7;
+  top: 58px;
+}
+
+.image--pet {
+  z-index: 8;
+  transform: rotate(-20deg);
+  left: -68px;
+  bottom: -60px;
 }
 </style>
