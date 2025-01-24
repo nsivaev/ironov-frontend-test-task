@@ -1,23 +1,29 @@
 <template>
   <div class="generation">
-    <div class="image-container">
+    <div ref="imageContainer" class="image-container">
       <div v-for="(src, name) in orderedImages" :key="name" :class="`image image--${name}`">
-        <img :src="src" :alt="`Random ${name}`" loading="lazy" />
+        <img :src="src" :alt="`Random ${name}`" loading="lazy"/>
       </div>
+    </div>
+    <div class="generation-buttons">
+      <button @click="regenerateImages" class="generation-btn generation-btn--refresh">
+        обновить
+      </button>
+      <button @click="saveToFavorites" class="generation-btn generation-btn--favorite">в избранное
+      </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { ref } from 'vue';
+import { useFavoritesStore } from '@/stores/favorites';
 
 export default {
   setup() {
-    // Глобальный импорт всех SVG файлов через import.meta.glob (vite)
     const modules = import.meta.glob('@/images/*/**.svg', { eager: true });
-
-    // Группируем изображения по их директориям
     const groupedImages: Record<string, string[]> = {};
+
     Object.entries(modules).forEach(([path, module]: [string, any]) => {
       const match = path.match(/\/images\/([^/]+)\//);
       if (match) {
@@ -29,27 +35,54 @@ export default {
       }
     });
 
-    // Список директорий
     const layers = ['backgrounds', 'head', 'eyes', 'eyebrows', 'glasses', 'body', 'mouth', 'top', 'pet'];
+    const orderedImages = ref<Record<string, string>>(generateRandomImages());
 
-    // Случайное изображение для каждого слоя
-    const orderedImages = ref<Record<string, string>>(
-      Object.fromEntries(
+    const imageContainer = ref<HTMLElement | null>(null);
+    const favoritesStore = useFavoritesStore();
+
+    // Генерация случайных изображений
+    function generateRandomImages() {
+      return Object.fromEntries(
         layers.map((layer) => [
           layer,
           groupedImages[layer]
             ? groupedImages[layer][Math.floor(Math.random() * groupedImages[layer].length)]
-            : ''
+            : '',
         ])
-      )
-    );
+      );
+    }
+
+    // Метод для обновления генерации
+    const regenerateImages = () => {
+      orderedImages.value = generateRandomImages();
+    };
+
+    // Сохранение в избранное
+    const saveToFavorites = () => {
+      if (!imageContainer.value) return;
+
+      // html2canvas
+      import('html2canvas').then((html2canvas) => {
+        html2canvas.default(imageContainer.value as HTMLElement, {
+          backgroundColor: null,
+        }).then((canvas) => {
+          const dataURL = canvas.toDataURL('image/png');
+          favoritesStore.addToFavorites(dataURL);
+        });
+      });
+    };
 
     return {
       orderedImages,
+      imageContainer,
+      regenerateImages,
+      saveToFavorites,
     };
   },
 };
 </script>
+
 
 <style scoped>
 .generation {
@@ -67,11 +100,11 @@ export default {
 
 .image-container {
   background-color: #76EBC7;
-  border-radius: 8px;
-  overflow: hidden;
   width: 440px;
   height: 440px;
   position: relative;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .image {
@@ -151,6 +184,57 @@ export default {
     position: absolute;
     width: 100%;
     height: auto;
+  }
+}
+
+.generation-buttons {
+  display: flex;
+  gap: 12px;
+  position: absolute;
+  bottom: 60px;
+  z-index: 123;
+}
+
+.generation-btn {
+  cursor: pointer;
+  color: #FFFFFF;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+}
+
+.generation-btn--favorite {
+  flex-direction: row-reverse;
+  background-color: #000000;
+  border: 1px solid #FFFFFF;
+
+  &:before {
+    display: block;
+    content: '';
+    background-image: url("../assets/icons/like.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 14px;
+    height: 13px;
+  }
+}
+
+.generation-btn--refresh {
+  background-color: #FD4820;
+  border: 1px solid #FD4820;
+
+  &:before {
+    display: block;
+    content: '';
+    background-image: url("../assets/icons/reload.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 14px;
+    height: 13px;
   }
 }
 </style>
