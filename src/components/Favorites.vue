@@ -6,7 +6,14 @@
     <div v-else class="favorites-list">
       <div v-for="(image, index) in favorites" :key="index" class="favorite-item">
         <img :src="image" alt="Favorite Character"/>
-        <button @click="removeFavorite(index)" class="trash-btn trash-btn--delete">удалить</button>
+        <div class="favorite-buttons">
+          <a :href="image" :download="`LegoFace-${index + 1}.png`"
+             class="favorite-btn favorite-btn--save">
+            скачать
+          </a>
+          <button @click="removeFavorite(index)" class="favorite-btn favorite-btn--trash">удалить
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -57,7 +64,17 @@ export default defineComponent({
   }
 }
 
-.trash-btn {
+.favorite-buttons {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+}
+
+.favorite-btn {
   cursor: pointer;
   padding: 4px 8px;
   display: flex;
@@ -69,11 +86,7 @@ export default defineComponent({
   border-radius: 4px;
 }
 
-.trash-btn--delete {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 18px;
+.favorite-btn--trash {
 
   &:before {
     display: block;
@@ -82,6 +95,12 @@ export default defineComponent({
     width: 14px;
     height: 14px;
   }
+}
+
+.favorite-btn--save {
+  text-decoration: none;
+  background-color: #FD4820;
+  border: 1px solid #FD4820;
 }
 
 </style>
