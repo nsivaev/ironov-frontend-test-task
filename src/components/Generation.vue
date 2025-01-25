@@ -9,6 +9,9 @@
       <button @click="regenerateImages" class="generation-btn generation-btn--refresh">
         обновить
       </button>
+      <button @click="downloadImage" class="generation-btn generation-btn--download">
+        скачать
+      </button>
       <button @click="saveToFavorites" class="generation-btn generation-btn--favorite">в избранное
       </button>
     </div>
@@ -16,12 +19,12 @@
 </template>
 
 <script lang="ts">
-import {ref} from 'vue';
-import {useFavoritesStore} from '@/stores/favorites';
+import { ref } from 'vue';
+import { useFavoritesStore } from '@/stores/favorites';
 
 export default {
   setup() {
-    const modules = import.meta.glob('@/images/*/**.svg', {eager: true});
+    const modules = import.meta.glob('@/images/*/**.svg', { eager: true });
     const groupedImages: Record<string, string[]> = {};
 
     Object.entries(modules).forEach(([path, module]: [string, any]) => {
@@ -62,7 +65,6 @@ export default {
     const saveToFavorites = () => {
       if (!imageContainer.value) return;
 
-      // html2canvas
       import('html2canvas').then((html2canvas) => {
         html2canvas.default(imageContainer.value as HTMLElement, {
           backgroundColor: null,
@@ -73,15 +75,33 @@ export default {
       });
     };
 
+    // Скачать пикчу
+    const downloadImage = () => {
+      if (!imageContainer.value) return;
+
+      import('html2canvas').then((html2canvas) => {
+        html2canvas.default(imageContainer.value as HTMLElement, {
+          backgroundColor: null,
+        }).then((canvas) => {
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = 'generated-image.png';
+          link.click();
+        });
+      });
+    };
+
     return {
       orderedImages,
       imageContainer,
       regenerateImages,
       saveToFavorites,
+      downloadImage,
     };
   },
 };
 </script>
+
 
 
 <style scoped>
@@ -243,6 +263,21 @@ export default {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.generation-btn--download {
+  flex-direction: row-reverse;
+  background-color: #000000;
+  border: 1px solid #FFFFFF;
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: #252525;
+  }
+
+  &:active {
+    background-color: #191919;
   }
 }
 
