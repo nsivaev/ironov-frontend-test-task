@@ -85,7 +85,7 @@ export default {
         }).then((canvas) => {
           const link = document.createElement('a');
           link.href = canvas.toDataURL('image/png');
-          link.download = 'generated-image.png';
+          link.download = 'LegoFace.png';
           link.click();
         });
       });
