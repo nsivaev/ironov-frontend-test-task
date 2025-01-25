@@ -16,12 +16,12 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
-import { useFavoritesStore } from '@/stores/favorites';
+import {ref} from 'vue';
+import {useFavoritesStore} from '@/stores/favorites';
 
 export default {
   setup() {
-    const modules = import.meta.glob('@/images/*/**.svg', { eager: true });
+    const modules = import.meta.glob('@/images/*/**.svg', {eager: true});
     const groupedImages: Record<string, string[]> = {};
 
     Object.entries(modules).forEach(([path, module]: [string, any]) => {
@@ -86,6 +86,7 @@ export default {
 
 <style scoped>
 .generation {
+  margin-inline: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -205,26 +206,20 @@ export default {
   border-radius: 4px;
 }
 
-.generation-btn--favorite {
-  flex-direction: row-reverse;
-  background-color: #000000;
-  border: 1px solid #FFFFFF;
-
-  &:before {
-    display: block;
-    content: '';
-    background-image: url("../assets/icons/like.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 14px;
-    height: 13px;
-  }
-}
-
 .generation-btn--refresh {
   background-color: #FD4820;
   border: 1px solid #FD4820;
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: #ff5b36;
+    border: 1px solid #ff5b36;
+  }
+
+  &:active {
+    background-color: #FD4820;
+    border: 1px solid #FD4820;
+  }
 
   &:before {
     display: block;
@@ -232,9 +227,48 @@ export default {
     background-image: url("../assets/icons/reload.svg");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
+    background-size: contain;
     width: 14px;
-    height: 13px;
+    height: 14px;
+  }
+
+  &:hover:before {
+    animation: rotate360 0.3s ease;
+  }
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.generation-btn--favorite {
+  flex-direction: row-reverse;
+  background-color: #000000;
+  border: 1px solid #FFFFFF;
+  transition: 0.2s ease;
+
+  &:before {
+    display: block;
+    content: '';
+    background-image: url("../assets/icons/like.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover {
+    background-color: #252525;
+  }
+
+  &:active {
+    background-color: #191919;
   }
 }
 </style>

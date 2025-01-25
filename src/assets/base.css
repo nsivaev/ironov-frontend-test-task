@@ -4,15 +4,8 @@
     padding: 0;
 }
 
-a {
-    color: #FFFFFF;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-h1 {
-    margin-bottom: 10px;
+.container {
+    margin-inline: auto;
+    max-width: 1200px;
+    padding-inline: 20px;
 }

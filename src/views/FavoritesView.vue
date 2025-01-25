@@ -1,7 +1,9 @@
 <template>
   <main>
-    <h1>Страница избранного</h1>
-    <Favorites/>
+    <div class="container">
+      <h1>Страница избранного</h1>
+      <Favorites/>
+    </div>
   </main>
 </template>
 

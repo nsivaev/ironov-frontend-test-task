@@ -1,8 +1,43 @@
 @import './base.css';
 
 body {
-    font-family: Roboto Mono, Menlo, Consolas, monospace;
+    font-family: golos, serif;
     background-color: #000000;
     color: rgba(255, 255, 255, 0.7);
-    padding: 20px;
+}
+
+@font-face {
+    font-family: 'golos';
+    src: local('golos'), local('golos'),
+    url('../assets/fonts/golos-ui/golos-ui_regular.woff') format('woff'),
+    url('../assets/fonts/golos-ui/golos-ui_regular.woff2') format('woff2'),
+    url('../assets/fonts/golos-ui/golos-ui_bold.woff') format('woff'),
+    url('../assets/fonts/golos-ui/golos-ui_bold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a, p, button {
+    font-family: golos, serif;
+}
+
+h1 {
+    font-size: 50px;
+    letter-spacing: 3px;
+    font-weight: 900;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+p {
+    font-size: 18px;
 }

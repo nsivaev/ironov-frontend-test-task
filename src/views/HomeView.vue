@@ -1,7 +1,9 @@
 <template>
   <main>
-    <h1>Страница генерации</h1>
-    <Generation/>
+    <div class="container">
+      <h1>Страница генерации</h1>
+      <Generation/>
+    </div>
   </main>
 </template>
 

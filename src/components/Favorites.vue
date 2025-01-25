@@ -1,7 +1,7 @@
 <template>
   <div class="favorites">
     <div v-if="favorites.length === 0" class="favorites-empty">
-      <p>Ваш список избранного пуст.</p>
+      <p>Ваш список избранного пуст :(</p>
     </div>
     <div v-else class="favorites-list">
       <div v-for="(image, index) in favorites" :key="index" class="favorite-item">
@@ -41,10 +41,15 @@ export default defineComponent({
 
 <style scoped>
 .favorites {
-  width: fit-content;
+  margin-inline: auto;
+  max-width: 1101px;
   border: 3px solid rgba(255, 255, 255, 0.7);
   border-radius: 8px;
   padding: 40px;
+}
+
+.favorites-empty {
+  text-align: center;
 }
 
 .favorites-list {
@@ -87,6 +92,15 @@ export default defineComponent({
 }
 
 .favorite-btn--trash {
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: #252525;
+  }
+
+  &:active {
+    background-color: #191919;
+  }
 
   &:before {
     display: block;
@@ -101,6 +115,17 @@ export default defineComponent({
   text-decoration: none;
   background-color: #FD4820;
   border: 1px solid #FD4820;
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: #ff5b36;
+    border: 1px solid #ff5b36;
+  }
+
+  &:active {
+    background-color: #FD4820;
+    border: 1px solid #FD4820;
+  }
 }
 
 </style>
