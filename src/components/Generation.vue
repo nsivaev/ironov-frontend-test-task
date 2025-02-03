@@ -73,6 +73,7 @@ export default {
           favoritesStore.addToFavorites(dataURL);
         });
       });
+      alert('Добавлено в избранное ✏️');
     };
 
     // Скачать пикчу
@@ -101,8 +102,6 @@ export default {
   },
 };
 </script>
-
-
 
 <style scoped>
 .generation {

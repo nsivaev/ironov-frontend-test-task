@@ -14,13 +14,7 @@ export default {
   components: {Favorites},
 
   setup() {
-
-
     return {}
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

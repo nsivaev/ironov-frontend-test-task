@@ -4,6 +4,7 @@ export const useFavoritesStore = defineStore('favorites', {
   state: () => ({
     favorites: [] as string[],
   }),
+
   actions: {
     addToFavorites(image: string) {
       this.favorites.push(image);

@@ -14,13 +14,7 @@ export default {
   components: {Generation},
 
   setup() {
-
-
     return {}
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

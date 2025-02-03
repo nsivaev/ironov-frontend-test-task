@@ -127,5 +127,4 @@ export default defineComponent({
     border: 1px solid #FD4820;
   }
 }
-
 </style>
